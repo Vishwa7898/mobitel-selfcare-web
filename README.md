@@ -1,181 +1,226 @@
 # Mobitel Selfcare Web Application
 
-A modern, responsive web application for Mobitel Selfcare services, built with HTML5, CSS3, and JavaScript. This application provides a user-friendly interface for managing mobile accounts, viewing data usage, and accessing various selfcare services.
+A modern, responsive web application for Mobitel mobile selfcare services built with HTML, CSS, and JavaScript.
 
 ## Features
 
-### 🔐 Authentication
-- Phone number-based login system
-- Password authentication
-- Remember me functionality
-- Secure session management
+- 🔐 **Secure Login System** - Phone number based authentication
+- 📱 **Mobile Responsive** - Optimized for mobile devices
+- 🎨 **Modern UI/UX** - Beautiful gradient design with smooth animations
+- 🔄 **Real-time Data** - Live account information and usage tracking
+- 📊 **Dashboard** - Comprehensive account overview
+- 🚀 **PWA Ready** - Progressive Web App capabilities
+- 🌐 **API Integration** - Ready for real API endpoints
 
-### 📊 Dashboard
-- Account overview with user information
-- Real-time data usage visualization
-- Account status and plan details
-- Recent transaction history
+## Test Credentials
 
-### 🚀 Quick Actions
-- Account recharge
-- Data pack purchases
-- Bill viewing
-- Customer support access
-
-### 📱 Responsive Design
-- Mobile-first approach
-- Cross-platform compatibility
-- Modern UI/UX design
-- Progressive Web App (PWA) support
-
-## Technology Stack
-
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Styling**: Custom CSS with modern design patterns
-- **Icons**: Font Awesome 6.0
-- **PWA**: Service Worker, Web App Manifest
-- **Storage**: LocalStorage for session management
-
-## Getting Started
-
-### Prerequisites
-- A modern web browser (Chrome, Firefox, Safari, Edge)
-- Web server (for PWA features)
-
-### Installation
-
-1. Clone the repository:
-```bash
-git clone https://github.com/yourusername/mobitel-selfcare-web.git
-cd mobitel-selfcare-web
-```
-
-2. Serve the files using a web server:
-```bash
-# Using Python
-python -m http.server 8000
-
-# Using Node.js
-npx serve .
-
-# Using PHP
-php -S localhost:8000
-```
-
-3. Open your browser and navigate to `http://localhost:8000`
-
-### Demo Credentials
-
-For testing purposes, use these demo credentials:
+For testing purposes, use these credentials:
 
 | Phone Number | Password |
 |-------------|----------|
 | 77 123 4567 | password123 |
 | 77 111 1111 | test123 |
 | 77 222 2222 | demo123 |
+| 77 333 3333 | mobile123 |
+| 77 444 4444 | selfcare123 |
+| 77 555 5555 | mobitel123 |
 
-## Project Structure
+## Quick Start
+
+### Option 1: Direct File Opening
+1. Clone or download this repository
+2. Open `index.html` in your web browser
+3. Start testing with the provided credentials
+
+### Option 2: Local Server (Recommended)
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Or use serve
+npm start
+```
+
+The application will be available at `http://localhost:3000`
+
+## API Configuration
+
+The application supports multiple API configurations:
+
+### Production API
+```javascript
+// Update js/config.js
+PRODUCTION: {
+    baseUrl: 'https://api.mobitel.lk/selfcare/v1',
+    endpoints: {
+        login: '/auth/login',
+        // ... other endpoints
+    }
+}
+```
+
+### Development API
+```javascript
+DEVELOPMENT: {
+    baseUrl: 'http://localhost:3000/api',
+    endpoints: {
+        login: '/auth/login',
+        // ... other endpoints
+    }
+}
+```
+
+### Mock API (Default)
+The application uses mock API responses for testing and development.
+
+## Mobile App Integration
+
+To integrate with your mobile app:
+
+1. **Update API Endpoints**: Modify `js/config.js` with your actual API endpoints
+2. **Authentication**: The app uses JWT tokens for authentication
+3. **CORS**: Ensure your API supports CORS for web requests
+4. **SSL**: Use HTTPS in production for security
+
+### API Endpoints Expected
+
+- `POST /auth/login` - User authentication
+- `POST /auth/logout` - User logout
+- `GET /user/profile` - User profile data
+- `GET /account/balance` - Account balance
+- `GET /account/data-usage` - Data usage information
+- `GET /account/transactions` - Transaction history
+
+## File Structure
 
 ```
 mobitel-selfcare-web/
 ├── index.html          # Main HTML file
 ├── css/
-│   └── style.css       # Main stylesheet
+│   └── style.css      # Main stylesheet
 ├── js/
-│   └── app.js          # Main JavaScript application
-├── images/             # Image assets
-├── sw.js               # Service Worker
-├── manifest.json       # PWA manifest
-└── README.md           # Project documentation
+│   ├── app.js         # Main application logic
+│   └── config.js      # API configuration
+├── images/
+│   ├── mobitel-logo.svg
+│   ├── icon-192x192.svg
+│   └── icon-512x512.svg
+├── manifest.json      # PWA manifest
+├── sw.js             # Service worker
+└── package.json      # Dependencies
 ```
 
-## Key Components
+## Deployment
 
-### Authentication System
-- Phone number validation (Sri Lankan mobile numbers)
-- Password-based authentication
-- Session persistence
-- Automatic logout on token expiry
+### GitHub Pages
+1. Push your code to GitHub
+2. Go to repository Settings > Pages
+3. Select source branch
+4. Your app will be available at `https://username.github.io/repository-name`
 
-### Dashboard Interface
-- Real-time data usage visualization
-- Account information display
-- Quick action buttons
-- Transaction history
+### Netlify
+1. Connect your GitHub repository
+2. Set build command: `npm run build` (or leave empty for static files)
+3. Set publish directory: `.` (root)
+4. Deploy
 
-### Responsive Design
-- Mobile-first CSS approach
-- Flexible grid layouts
-- Touch-friendly interface
-- Cross-device compatibility
-
-## API Integration
-
-The application is designed to integrate with Mobitel's selfcare API endpoints:
-
-- **Authentication**: `/api/auth/login`
-- **User Data**: `/api/user/profile`
-- **Data Usage**: `/api/user/usage`
-- **Transactions**: `/api/user/transactions`
-
-*Note: Currently using mock data for demonstration purposes.*
-
-## PWA Features
-
-- **Offline Support**: Service Worker caches essential resources
-- **Installable**: Can be installed on mobile devices
-- **App-like Experience**: Standalone display mode
-- **Push Notifications**: Ready for implementation
+### Vercel
+1. Import your GitHub repository
+2. Vercel will auto-detect it's a static site
+3. Deploy with zero configuration
 
 ## Browser Support
 
 - Chrome 60+
 - Firefox 55+
-- Safari 11+
+- Safari 12+
 - Edge 79+
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Features in Detail
+
+### Login System
+- Phone number validation for Sri Lankan mobile numbers
+- Password strength requirements
+- Remember me functionality
+- Secure token-based authentication
+
+### Dashboard
+- Account overview with real-time data
+- Data usage visualization with circular progress
+- Quick action buttons for common tasks
+- Recent transaction history
+- Responsive grid layout
+
+### Mobile Optimization
+- Touch-friendly interface
+- Responsive design for all screen sizes
+- PWA capabilities for app-like experience
+- Offline support with service worker
+
+## Customization
+
+### Styling
+Modify `css/style.css` to change:
+- Color scheme (update CSS variables)
+- Layout and spacing
+- Typography
+- Animations
+
+### Functionality
+Update `js/app.js` to:
+- Add new features
+- Modify existing behavior
+- Integrate additional APIs
+
+### API Integration
+Update `js/config.js` to:
+- Change API endpoints
+- Modify request/response handling
+- Add new API calls
+
+## Troubleshooting
+
+### Login Issues
+1. Check browser console for errors
+2. Verify phone number format (77 123 4567)
+3. Use exact passwords from test credentials
+4. Clear browser cache and localStorage
+
+### API Issues
+1. Check network connectivity
+2. Verify API endpoint URLs
+3. Check CORS settings
+4. Review browser developer tools
+
+### Mobile Issues
+1. Test on actual mobile device
+2. Check viewport meta tag
+3. Verify touch interactions
+4. Test PWA installation
 
 ## Contributing
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add some amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
-
-## Security Considerations
-
-- All sensitive data is handled client-side only
-- No actual API credentials are stored
-- Session tokens are managed securely
-- Input validation on all forms
-
-## Future Enhancements
-
-- [ ] Real API integration
-- [ ] Push notifications
-- [ ] Biometric authentication
-- [ ] Multi-language support
-- [ ] Dark mode theme
-- [ ] Advanced analytics
-- [ ] Social login options
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - see LICENSE file for details
 
-## Contact
+## Support
 
-For questions or support, please contact:
-- Email: support@mobitel.lk
-- Website: https://selfcare.mobitel.lk
-
-## Acknowledgments
-
-- Mobitel Sri Lanka for the inspiration
-- Font Awesome for the icon library
-- Modern CSS techniques and best practices
-- Progressive Web App community
+For issues and questions:
+- Create an issue on GitHub
+- Contact: [your-email@example.com]
+- Documentation: [your-docs-url]
 
 ---
 
-**Note**: This is a demonstration project created for educational purposes. It is not affiliated with or endorsed by Mobitel Sri Lanka.
+**Note**: This is a demo application. For production use, ensure proper security measures, API authentication, and data validation are implemented.

@@ -3,7 +3,7 @@ class MobitelSelfcare {
     constructor() {
         this.isLoggedIn = false;
         this.userData = null;
-        this.apiBaseUrl = 'https://api.mobitel.lk/selfcare'; // Mock API URL
+        this.apiHelper = new APIHelper();
         this.init();
     }
 
@@ -37,7 +37,7 @@ class MobitelSelfcare {
     }
 
     checkAuthStatus() {
-        const token = localStorage.getItem('mobitel_token');
+        const token = this.apiHelper.authToken;
         const userData = localStorage.getItem('mobitel_user');
         
         if (token && userData) {
@@ -73,15 +73,21 @@ class MobitelSelfcare {
         this.showLoading(true);
 
         try {
-            // Simulate API call
-            const loginData = await this.authenticateUser(phoneNumber, password);
+            // Use API helper for login
+            const loginData = await this.apiHelper.makeRequest('login', {
+                method: 'POST',
+                body: JSON.stringify({
+                    phone: phoneNumber,
+                    password: password
+                })
+            });
             
             if (loginData.success) {
                 this.isLoggedIn = true;
                 this.userData = loginData.user;
                 
                 // Store authentication data
-                localStorage.setItem('mobitel_token', loginData.token);
+                this.apiHelper.setAuthToken(loginData.token);
                 localStorage.setItem('mobitel_user', JSON.stringify(loginData.user));
                 
                 if (rememberMe) {
@@ -105,14 +111,20 @@ class MobitelSelfcare {
         // Simulate API delay
         await new Promise(resolve => setTimeout(resolve, 1500));
 
-        // Mock authentication logic
+        // Mock authentication logic with more test accounts
         const validCredentials = {
             '771234567': 'password123',
             '771111111': 'test123',
-            '772222222': 'demo123'
+            '772222222': 'demo123',
+            '773333333': 'mobile123',
+            '774444444': 'selfcare123',
+            '775555555': 'mobitel123'
         };
 
         const cleanPhone = phoneNumber.replace(/\s/g, '');
+        
+        // Debug logging
+        console.log('Attempting login with:', { cleanPhone, passwordLength: password.length });
         
         if (validCredentials[cleanPhone] && validCredentials[cleanPhone] === password) {
             return {
@@ -136,7 +148,7 @@ class MobitelSelfcare {
         } else {
             return {
                 success: false,
-                message: 'Invalid phone number or password'
+                message: 'Invalid phone number or password. Try: 771234567 / password123'
             };
         }
     }
@@ -145,6 +157,10 @@ class MobitelSelfcare {
         // Remove spaces and validate Sri Lankan mobile numbers
         const cleanPhone = phoneNumber.replace(/\s/g, '');
         const phoneRegex = /^(77|71|70|75|76|78)[0-9]{7}$/;
+        
+        // Debug logging
+        console.log('Validating phone:', { original: phoneNumber, clean: cleanPhone, isValid: phoneRegex.test(cleanPhone) });
+        
         return phoneRegex.test(cleanPhone);
     }
 
@@ -252,12 +268,21 @@ class MobitelSelfcare {
         }
     }
 
-    logout() {
+    async logout() {
+        try {
+            // Call logout API if available
+            await this.apiHelper.makeRequest('logout', {
+                method: 'POST'
+            });
+        } catch (error) {
+            console.log('Logout API call failed, continuing with local logout');
+        }
+        
         this.isLoggedIn = false;
         this.userData = null;
         
         // Clear stored data
-        localStorage.removeItem('mobitel_token');
+        this.apiHelper.clearAuthToken();
         localStorage.removeItem('mobitel_user');
         
         this.showToast('Logged out successfully', 'success');

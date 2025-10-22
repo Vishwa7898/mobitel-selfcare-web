@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mobitel Selfcare - Login Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .test-item {
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background: #f9f9f9;
+        }
+        .success { border-color: #28a745; background: #d4edda; }
+        .error { border-color: #dc3545; background: #f8d7da; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { background: #5a6fd8; }
+        .result {
+            margin-top: 10px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="test-container">
+        <h1>🧪 Mobitel Selfcare Login Test</h1>
+        <p>This page tests the login functionality of the Mobitel Selfcare web app.</p>
+        
+        <div class="test-item">
+            <h3>Test 1: Valid Login</h3>
+            <p><strong>Phone:</strong> 77 123 4567 | <strong>Password:</strong> password123</p>
+            <button onclick="testLogin('771234567', 'password123')">Test Login</button>
+            <div id="result1" class="result"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 2: Invalid Phone</h3>
+            <p><strong>Phone:</strong> 123456789 | <strong>Password:</strong> password123</p>
+            <button onclick="testLogin('123456789', 'password123')">Test Login</button>
+            <div id="result2" class="result"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 3: Invalid Password</h3>
+            <p><strong>Phone:</strong> 77 123 4567 | <strong>Password:</strong> wrongpass</p>
+            <button onclick="testLogin('771234567', 'wrongpass')">Test Login</button>
+            <div id="result3" class="result"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 4: Another Valid Account</h3>
+            <p><strong>Phone:</strong> 77 111 1111 | <strong>Password:</strong> test123</p>
+            <button onclick="testLogin('771111111', 'test123')">Test Login</button>
+            <div id="result4" class="result"></div>
+        </div>
+        
+        <div class="test-item">
+            <h3>Test 5: Phone Number Formatting</h3>
+            <p><strong>Phone:</strong> 77 222 2222 (with spaces) | <strong>Password:</strong> demo123</p>
+            <button onclick="testLogin('77 222 2222', 'demo123')">Test Login</button>
+            <div id="result5" class="result"></div>
+        </div>
+        
+        <div style="margin-top: 30px; padding: 20px; background: #e7f3ff; border-radius: 10px;">
+            <h3>📱 How to Test the Main App</h3>
+            <ol>
+                <li>Open <code>index.html</code> in your browser</li>
+                <li>Use any of the test credentials above</li>
+                <li>Check the browser console for debug information</li>
+                <li>Verify the dashboard loads after successful login</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        // Mock API Helper for testing
+        class TestAPIHelper {
+            async makeRequest(endpoint, options) {
+                if (endpoint !== 'login') {
+                    return { success: false, message: 'Only login endpoint supported in test' };
+                }
+                
+                const body = JSON.parse(options.body || '{}');
+                const { phone, password } = body;
+                
+                const validCredentials = {
+                    '771234567': 'password123',
+                    '771111111': 'test123',
+                    '772222222': 'demo123',
+                    '773333333': 'mobile123',
+                    '774444444': 'selfcare123',
+                    '775555555': 'mobitel123'
+                };
+                
+                const cleanPhone = phone.replace(/\s/g, '');
+                
+                if (validCredentials[cleanPhone] && validCredentials[cleanPhone] === password) {
+                    return {
+                        success: true,
+                        token: 'test_token_' + Date.now(),
+                        user: {
+                            phone: '+94 ' + cleanPhone,
+                            name: 'Test User',
+                            email: 'test@example.com',
+                            accountStatus: 'Active',
+                            plan: 'Test Plan'
+                        }
+                    };
+                } else {
+                    return {
+                        success: false,
+                        message: 'Invalid phone number or password'
+                    };
+                }
+            }
+        }
+        
+        async function testLogin(phone, password) {
+            const testId = 'result' + (document.querySelectorAll('.test-item').length - document.querySelectorAll('.test-item:not(:has(.result:empty))').length);
+            const resultDiv = document.getElementById(testId);
+            
+            resultDiv.innerHTML = '⏳ Testing...';
+            resultDiv.className = 'result';
+            
+            try {
+                const apiHelper = new TestAPIHelper();
+                const result = await apiHelper.makeRequest('login', {
+                    method: 'POST',
+                    body: JSON.stringify({ phone, password })
+                });
+                
+                if (result.success) {
+                    resultDiv.innerHTML = `✅ <strong>SUCCESS:</strong> Login successful!<br>
+                                          <small>Token: ${result.token.substring(0, 20)}...</small><br>
+                                          <small>User: ${result.user.name} (${result.user.phone})</small>`;
+                    resultDiv.className = 'result success';
+                } else {
+                    resultDiv.innerHTML = `❌ <strong>FAILED:</strong> ${result.message}`;
+                    resultDiv.className = 'result error';
+                }
+            } catch (error) {
+                resultDiv.innerHTML = `💥 <strong>ERROR:</strong> ${error.message}`;
+                resultDiv.className = 'result error';
+            }
+        }
+        
+        // Auto-run first test on page load
+        window.addEventListener('load', () => {
+            setTimeout(() => testLogin('771234567', 'password123'), 1000);
+        });
+    </script>
+</body>
+</html>

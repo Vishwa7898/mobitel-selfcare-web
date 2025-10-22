@@ -9,6 +9,10 @@
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="Mobitel Selfcare">
 </head>
 <body>
     <!-- Header -->
@@ -77,6 +81,23 @@
                         
                         <div class="login-footer">
                             <p>Don't have an account? <a href="#register" class="register-link">Register here</a></p>
+                        </div>
+                        
+                        <!-- Test Credentials Info -->
+                        <div class="test-credentials">
+                            <h4>Test Credentials:</h4>
+                            <div class="credential-item">
+                                <strong>Phone:</strong> 77 123 4567<br>
+                                <strong>Password:</strong> password123
+                            </div>
+                            <div class="credential-item">
+                                <strong>Phone:</strong> 77 111 1111<br>
+                                <strong>Password:</strong> test123
+                            </div>
+                            <div class="credential-item">
+                                <strong>Phone:</strong> 77 222 2222<br>
+                                <strong>Password:</strong> demo123
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -242,6 +263,7 @@
     <!-- Notification Toast -->
     <div id="toast" class="toast"></div>
 
+    <script src="js/config.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
