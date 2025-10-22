@@ -99,6 +99,17 @@
                                 <strong>Password:</strong> demo123
                             </div>
                         </div>
+                        
+                        <!-- API Mode Selector -->
+                        <div class="api-mode-selector">
+                            <h4>API Mode:</h4>
+                            <div class="mode-buttons">
+                                <button onclick="switchApiMode('MOCK')" class="mode-btn mock">Mock API</button>
+                                <button onclick="switchApiMode('PRODUCTION')" class="mode-btn production">Real Mobitel API</button>
+                                <button onclick="switchApiMode('DEVELOPMENT')" class="mode-btn development">Development</button>
+                            </div>
+                            <p class="mode-info">Current: <span id="current-mode">Loading...</span></p>
+                        </div>
                     </div>
                 </div>
             </div>

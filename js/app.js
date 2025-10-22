@@ -11,6 +11,7 @@ class MobitelSelfcare {
         this.setupEventListeners();
         this.checkAuthStatus();
         this.loadUserData();
+        this.updateApiModeDisplay();
     }
 
     setupEventListeners() {
@@ -349,6 +350,16 @@ class MobitelSelfcare {
 
     showSupport() {
         this.showToast('Support service coming soon!', 'info');
+    }
+
+    updateApiModeDisplay() {
+        const currentModeElement = document.getElementById('current-mode');
+        if (currentModeElement) {
+            const currentMode = getEnvironment();
+            currentModeElement.textContent = currentMode;
+            currentModeElement.style.color = currentMode === 'PRODUCTION' ? '#dc3545' : 
+                                           currentMode === 'DEVELOPMENT' ? '#ffc107' : '#28a745';
+        }
     }
 }
 
